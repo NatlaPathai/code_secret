@@ -6,6 +6,8 @@ Version **0.2.0**, adaptée avec Codex à l’atelier du 11 novembre 2026. Jeu s
 
 Ouvrir `index.html` dans un navigateur récent, puis choisir « Commencer une partie ». Composer quatre couleurs à l’aide des listes et valider. Les commandes sont utilisables au clavier ; les couleurs portent aussi un nom ou une abréviation.
 
+Jeu publié : https://natlapathai.github.io/code_secret/ · Mode API : https://natlapathai.github.io/code_secret/?test=1.
+
 Le programme choisit quatre couleurs parmi rouge, bleu, vert, jaune, orange et violet. Les répétitions sont autorisées. Chaque essai valide donne le nombre de couleurs bien placées et présentes ailleurs, sans compter un pion deux fois. Le code reste caché. Dix essais au maximum ; trouver le code au dixième gagne la partie. Une saisie refusée ne consomme pas d’essai. « Nouvelle partie » remet tout à zéro.
 
 Sources pédagogiques fournies : *Projet — Code secret en couleurs*, édition 2.2, annexe `code-couleurs-1.0` ; *API commune de test*, contrat 0.2 ; *Évaluation du projet*, version 1.3. Ces documents de référence ne sont pas inclus dans le dépôt.
@@ -32,7 +34,7 @@ Source complémentaire : *Atelier 4 du 11 novembre 2026 — Démarrer et vérifi
 | Manuel assisté, compléter avec jaune et valider | 1 essai et une entrée dans l’historique | Compteur à 1/10, quatre couleurs et leurs indices visibles | Réussi |
 | Automatisé, vider un choix et redémarrer | 3/4 après effacement, 0/4 après nouvelle partie | Valeurs conformes | Réussi |
 
-Limite : essais locaux sur ordinateur. Le téléphone réel et le site publié restent non vérifiés. Les tests du moteur de 0.1.0 n’ont pas été relancés : `engine.js` et les règles n’ont pas changé. Cette étape est une amélioration d’interface, pas la correction d’un défaut inventé.
+Limite à cette étape : essais locaux sur ordinateur. Le téléphone réel restait non vérifié et le site n’était pas encore publié. La vérification ultérieure du site est consignée dans la section Publication. Les tests du moteur de 0.1.0 n’ont pas été relancés : `engine.js` et les règles n’ont pas changé. Cette étape est une amélioration d’interface, pas la correction d’un défaut inventé.
 
 ## Organisation et choix proposés par Codex
 
@@ -58,7 +60,7 @@ Le secret n’apparaît pas dans l’état ni dans une révélation à l’écra
 
 ## Vérifications réalisées
 
-Résultats historiques : version **0.1.0**, conservée dans le commit local `fe4d7d7`, fichiers locaux testés le 11 novembre 2026. Ils ne sont pas présentés comme des tests rejoués sur 0.2.0. Le site publié reste à contrôler.
+Résultats historiques : version **0.1.0**, conservée dans le commit local `fe4d7d7`, fichiers locaux testés le 11 novembre 2026. Ils ne sont pas présentés comme des tests rejoués sur 0.2.0. La vérification ultérieure du site publié figure dans la section Publication.
 
 | Vérification et action | Attendu | Obtenu |
 | --- | --- | --- |
@@ -77,7 +79,7 @@ Pour reproduire les tests du moteur, installer Node.js puis exécuter `npm test`
 Aucun défaut fonctionnel du jeu n’a été constaté pendant ces vérifications ; aucune correction avant/après n’est donc revendiquée. Si cela reste le cas, demander à l’enseignant quelle preuve adaptée présenter. En cas de défaut rencontré ensuite, consigner le même essai avant et après sa correction.
 
 - Essai sur **smartphone réel** : à faire ; noter l’appareil, le navigateur, l’action et le résultat. La simulation ci-dessus ne le remplace pas.
-- Version publiée : à faire ; répéter les vérifications depuis l’URL GitHub Pages, avec et sans `test=1`.
+- Version publiée : les 17 contrôles du navigateur ont été exécutés avec succès, y compris la présence de l’API avec `test=1` et son absence en mode normal. Cela ne remplace pas l’essai sur smartphone réel.
 - Accessibilité : commandes natives et vérification clavier effectuée ; essai avec un lecteur d’écran non réalisé.
 - Retour après essai du jeu d’un camarade : à compléter par l’étudiant.
 - La partie n’est pas conservée après actualisation. PWA et hors-ligne non prévus pour cette première version.
@@ -85,7 +87,9 @@ Aucun défaut fonctionnel du jeu n’a été constaté pendant ces vérification
 
 ## Publication et remises à préparer
 
-Les fichiers du jeu sont publiés à la racine du dépôt, sur `main`. Pour rendre le jeu accessible sur le Web, GitHub Pages doit utiliser `main`, dossier `/ (root)`. Adresse prévue : https://natlapathai.github.io/code_secret/. L’activation de Pages et la vérification du site sont à confirmer ; la présence du code dans GitHub ne prouve pas que le site est en ligne.
+Les fichiers du jeu sont publiés à la racine du dépôt, sur `main`. GitHub Pages est activé sur `main`, dossier `/ (root)`. Jeu accessible : https://natlapathai.github.io/code_secret/.
+
+**Vérification de publication du 11 novembre 2026.** Version du jeu **0.2.0**, commit GitHub `397c63d70d49c59a98d4e0e7c431abd01fb8b691`, navigateur intégré de Codex sur ordinateur. L’accueil et les fichiers de style et de script se chargent. Les tests automatisés de https://natlapathai.github.io/code_secret/tests/browser.html ont donné **17 vérifications réussies, 0 échec**. Attendu : configuration et état initial corrects, API absente sans `test=1`, présente avec ce paramètre, indicateur et écran synchronisés, refus sans essai, victoire et défaite, redémarrage. Obtenu : tous ces contrôles réussis. Ce résultat n’atteste ni d’un essai personnel de l’étudiant ni d’un essai sur téléphone. La mise à jour de documentation qui suit ce commit ne modifie pas le jeu.
 
 J1 : **20 novembre 2026 au soir**, tag `jalon-1`. J2 : **18 décembre 2026 au soir**, tag `final`, API fonctionnelle, README complété et capsule individuelle de 4 à 5 minutes sur Cyberlearn. Les horaires précis relèvent de Cyberlearn. Aucun tag de remise n’a encore été créé.
 
