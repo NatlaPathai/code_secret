@@ -16,19 +16,20 @@
     <main>
       <section class="intro" aria-labelledby="title">
         <p class="eyebrow">À vous de trouver la combinaison</p>
-        <h1 id="title">Quatre couleurs.<br>Dix chances de percer le secret.</h1>
+        <h1 id="title">Quatre couleurs. Dix chances de percer le secret.</h1>
         <p class="lead">Observez les indices, ajustez vos choix et retrouvez le code caché. Une même couleur peut apparaître plusieurs fois.</p>
       </section>
-      <div class="layout">
-        <section class="board" aria-labelledby="board-title">
-          <div class="board-heading"><h2 id="board-title">Votre partie</h2><span id="counter">0 / 10 essais</span></div>
-          <div class="secret" aria-label="Le code de quatre couleurs reste caché"><span>?</span><span>?</span><span>?</span><span>?</span></div>
-          <p id="status" class="status" role="status" aria-live="polite">Prêt à relever le défi ? Commencez une partie.</p>
-          <button id="new-game" class="button secondary" type="button">Commencer une partie</button>
-          <div class="history-heading"><h3>Vos essais</h3><span>Du premier au dernier</span></div>
-          <p id="empty" class="empty">Vos combinaisons et leurs indices apparaîtront ici.</p>
-          <ol id="history" aria-label="Historique des propositions"></ol>
-          <form id="guess-form" novalidate>
+      <section class="guide rules-top" aria-labelledby="guide-title">
+        <div class="rules-summary"><p class="eyebrow">Les règles du jeu</p><h2 id="guide-title">Quatre couleurs à retrouver en dix essais</h2><p>Le code contient <strong>4 couleurs parmi 6</strong>, avec <strong>répétitions autorisées</strong>. Retrouvez les couleurs dans le bon ordre.</p></div>
+        <div class="rules-hints"><div class="hint"><span class="marker exact" aria-hidden="true"></span><div><h3>Bien placée</h3><p>Bonne couleur, bonne position.</p></div></div><div class="hint"><span class="marker elsewhere" aria-hidden="true"></span><div><h3>Mal placée</h3><p>Couleur présente, à une autre position.</p></div></div></div>
+        <details class="rules-details"><summary>Toutes les règles et un exemple</summary><p>Les indices donnent deux nombres, sans désigner les positions. Chaque pion compte une seule fois : les bien placés d’abord, puis les mal placés. Une proposition refusée ne consomme aucun essai. Quatre couleurs bien placées donnent la victoire, même au dixième essai. Après dix essais sans victoire, la partie est perdue. Le code reste caché. « Nouvelle partie » remet les essais et les choix à zéro.</p><ul id="palette" class="palette" aria-label="Couleurs autorisées"></ul><p>Exemple : pour le code rouge–rouge–bleu–vert, proposer quatre rouges donne <strong>2 bien placées et 0 mal placée</strong>. Les deux rouges supplémentaires ne comptent pas.</p></details>
+      </section>
+      <section class="board" aria-labelledby="board-title">
+        <div class="board-heading"><h2 id="board-title">Votre partie</h2><span id="counter">0 / 10 essais</span></div>
+        <div class="game-controls"><div class="secret" aria-label="Le code de quatre couleurs reste caché"><span>?</span><span>?</span><span>?</span><span>?</span></div><p id="status" class="status" role="status" aria-live="polite">Prêt à relever le défi ? Commencez une partie.</p><button id="new-game" class="button secondary" type="button">Commencer une partie</button></div>
+        <div class="game-columns">
+          <section class="attempts-panel" aria-labelledby="attempts-title"><div class="history-heading"><h3 id="attempts-title">Vos essais</h3><span>Du premier au dernier</span></div><p id="empty" class="empty">Vos combinaisons et leurs indices apparaîtront ici.</p><ol id="history" aria-label="Historique des propositions"></ol></section>
+          <form class="proposal-panel" id="guess-form" novalidate>
             <fieldset id="choices" disabled><legend>Composez votre proposition</legend>
               <p id="selected-count" class="selected-count" role="status" aria-live="polite" aria-atomic="true">0/4 couleurs choisies</p>
               <div class="slots" id="slots"></div>
@@ -39,20 +40,10 @@
             <p id="error" class="error" role="alert"></p>
             <button id="submit" class="button primary" type="submit" disabled>Valider la proposition <span aria-hidden="true">→</span></button>
           </form>
-        </section>
-        <aside class="guide" aria-labelledby="guide-title">
-          <p class="eyebrow">Les règles du jeu</p><h2 id="guide-title">Chaque indice compte.</h2>
-          <p>Le programme choisit un code fixe de <strong>4 couleurs parmi 6</strong>. Vous avez <strong>10 essais</strong> pour retrouver les couleurs et leur ordre.</p>
-          <div class="hint"><span class="marker exact" aria-hidden="true"></span><div><h3>Bien placée</h3><p>La bonne couleur à la bonne position.</p></div></div>
-          <div class="hint"><span class="marker elsewhere" aria-hidden="true"></span><div><h3>Mal placée</h3><p>Une couleur du code, à une autre position.</p></div></div>
-          <p class="note">Les indices donnent des nombres, pas les positions. Chaque pion compte une seule fois : les bien placés d’abord, puis les mal placés.</p>
-          <h3>Les six couleurs</h3><ul id="palette" class="palette" aria-label="Couleurs autorisées"></ul>
-          <details><summary>Un exemple avec des répétitions</summary><p>Pour un code rouge, rouge, bleu, vert, une proposition de quatre rouges donne <strong>2 bien placées et 0 mal placée</strong>. Les rouges supplémentaires ne comptent pas.</p></details>
-          <p class="note">Modifiez librement vos quatre choix avant de valider. Une proposition refusée ne consomme aucun essai. Après la fin, lancez une nouvelle partie.</p>
-        </aside>
-      </div>
+        </div>
+      </section>
     </main>
-    <footer>Inspiré du Mastermind · Règles code-couleurs-1.0 <span>Version 0.3.0</span></footer>
+    <footer>Inspiré du Mastermind · Règles code-couleurs-1.0 <span>Version 0.4.0</span></footer>
   </div>
   <noscript>Ce jeu nécessite JavaScript. Activez-le dans votre navigateur pour jouer.</noscript>
 </body>
