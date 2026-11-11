@@ -62,6 +62,42 @@ Le secret n’apparaît pas dans l’état ni dans une révélation à l’écra
 
 ## Vérifications réalisées
 
+### Vérification du contrat API 0.2 en ligne
+
+**Exécution réelle le 11 novembre 2026**, dans le navigateur intégré de Codex sur ordinateur, sur **GitHub Pages**. Jeu **0.2.1** ; code du jeu inchangé depuis `dd4f98cbe60be8c2675df081e6d9376a22d702e1`. Tests étendus publiés dans le commit `3518ac603465d0d4767de45cc26e55653328452d`. Les quatre fichiers `engine.js`, `app.js`, `index.html` et `styles.css` ont été comparés aux objets Git de cette version : contenus identiques à la copie locale examinée.
+
+Référence relue : *API commune de test — Code secret en couleurs*, contrat **0.2**, édition Google **1.5**, mise à jour du 28 octobre 2026. Les attendus ci-dessous viennent de ce contrat et ont été inscrits dans les tests avant leur exécution.
+
+**Résultat : 73 contrôles automatisés réussis, 0 échec**, soit les 17 contrôles d’intégration existants et 56 contrôles supplémentaires. Les tests ont d’abord été exécutés localement (73/73), puis sur [la page publique de vérification](https://natlapathai.github.io/code_secret/tests/browser.html?controle=3518ac6) (73/73). Le paramètre `controle` a permis d’éviter la réutilisation de l’ancienne page de 17 tests en cache ; il ne modifie pas les règles. Chaque exécution recharge le vrai jeu dans une fenêtre intégrée de même origine, appelle `window.codeSecretTest` et compare l’état à l’interface. Aucun moteur de substitution n’est utilisé.
+
+| Tests automatisés effectués | Résultat attendu | Résultat observé en ligne | Statut |
+| --- | --- | --- | --- |
+| Exposition de l’API avec et sans `test=1`, avec un autre paramètre conservé | API absente sans le paramètre ; version 0.2 et état initial exact avec lui | Conforme, dont `atelier=4&test=1` | Réussi |
+| Configuration et types des retours | Palette exacte et ordonnée, 4 positions, 10 essais, répétitions ; getters synchrones ; mutations sous forme de promesses | Tous les champs et types contrôlés conformes | Réussi |
+| Proposition avant démarrage, puis lectures seules | `game-not-started` prioritaire ; seul lastError change ; getters sans mutation de l’état ni de l’écran | Refus normalisé, zéro essai ; lectures sans effet | Réussi |
+| Démarrages sans argument, avec undefined et objet vide | État playing, zéro essai, historique vide et trois champs last… à null | Conforme dans les trois cas et écran réinitialisé | Réussi |
+| T01 à T09, chaque fois avec un secret imposé neuf | Scores bien/mal : **1/2, 0/2, 0/4, 2/2, 4/0, 2/0, 2/2, 4/0, 1/2** ; 1 essai ; T05 et T08 gagnants | Neuf scores identiques aux attendus ; états, historiques et indices visibles concordants | Réussi |
+| Propositions null, chaîne, tableaux creux, élément absent ou non chaîne | `invalid-type`, avant le contrôle de longueur | Code attendu dans chaque cas, données de partie conservées | Réussi |
+| Tableaux de 0, 3 ou 5 couleurs ; tableau court avec couleur inconnue | `invalid-length` avant le contrôle des couleurs | Code attendu ; aucun essai ajouté | Réussi |
+| Violet avec majuscule, espace final et traduction purple | `invalid-color`, message non vide affiché ; historique et compteur inchangés | Conforme dans les trois cas | Réussi |
+| Quatre violets après un refus | Proposition valide, répétitions admises, lastError effacé | Un seul essai ajouté et erreur effacée | Réussi |
+| Options null, tableau, chaîne, nombre, date, clé inconnue et symbole inconnu | Promesse rejetée avec Error, code invalid-options, priorité sur un secret invalide | Rejets conformes ; état complet, lastError et interface conservés | Réussi |
+| Secret undefined, null, creux, avec élément non chaîne, trop court ou couleur invalide | Rejet invalid-type, invalid-length ou invalid-color selon la priorité du contrat | Code attendu dans chaque cas ; aucune mutation de l’état ni de l’écran | Réussi |
+| Modification du secret fourni, de la proposition, de l’état renvoyé, de getState et de getConfig | Les objets sont indépendants de la partie ; secret imposé inchangé | Score 2/2 conservé, puis victoire avec le code initial ; configuration intacte | Réussi |
+| Victoire, tentative après victoire, redémarrage | won ; game-finished prioritaire même pour null ; nouvelles données de partie à zéro | Conforme, commandes désactivées puis réactivées au redémarrage | Réussi |
+| Neuf essais valides, refus, puis code exact au dixième | Le refus laisse 9 essais ; le code exact donne won à 10, résultat 4/0 | Conforme, dix entrées et message de victoire | Réussi |
+| Dix propositions non gagnantes, tentative supplémentaire, redémarrage | lost à 10, résultat 0/0 ; refus du onzième ; remise à zéro depuis lost | Conforme, écran et état concordants | Réussi |
+| API puis proposition par les commandes de l’interface | Une seule partie et un seul historique, victoire au deuxième essai | Deux entrées, état won, mêmes propositions et indices à l’écran | Réussi |
+| Champs d’état, historique, secret caché, rechargement | États sérialisables, attempts = history.length, derniers champs cohérents, aucun secret/solution exposé ; rechargement not-started | Invariants contrôlés sur les scénarios, code masqué même après victoire ; état initial retrouvé après rechargement | Réussi |
+
+**Essai manuel assisté sur le site, dans la même session.** Choisir rouge–bleu–vert et valider : attendu refus, zéro essai et historique vide ; obtenu message de refus, **0/10**, historique vide et **3/4** couleurs choisies. Compléter par jaune et valider : attendu un essai, une ligne et erreur effacée ; obtenu **1/10**, ligne rouge–bleu–vert–jaune, indice affiché **3 bien placées et 0 mal placée**, message d’erreur effacé. Le secret aléatoire n’étant pas connu dans cet essai manuel, cet indice n’est pas présenté comme une preuve indépendante du comptage ; ce dernier est vérifié avec les secrets imposés de T01–T09.
+
+**Adaptations réalisées.** Aucun écart fonctionnel au contrat n’a été observé, donc aucune modification de `engine.js` ou `app.js` n’a été nécessaire. La couverture du test navigateur a été étendue dans `tests/contract-checks.js`. Un risque de faux positif dans l’ancien test de démarrage invalide a été corrigé : auparavant, aucun contrôle n’était ajouté si l’appel ne rejetait pas ; désormais, un rejet avec le code attendu est obligatoire pour réussir. Il s’agit d’un renforcement des tests, pas d’un défaut du jeu reproduit puis corrigé.
+
+**Limites et tests non effectués.** Ces réussites ne prouvent pas l’absence de tout défaut ni la validation par l’enseignant. Aucun smartphone réel, lecteur d’écran, second navigateur ou profil entièrement neuf n’a été utilisé pendant cette vérification. Le rechargement sans secret persistant est testé, mais les caches et service workers n’ont pas été supprimés. La distribution statistique du tirage aléatoire et les appels concurrents ne sont pas testés ; ces derniers ne sont pas requis par le contrat commun. Aucun test exhaustif du moteur n’a été relancé pour cet audit en ligne. L’essai personnel de l’étudiant reste à réaliser.
+
+Pour reproduire : ouvrir le lien public de vérification et attendre le bilan. Les refus attendus sont des contrôles réussis quand le code d’erreur et l’absence d’effet correspondent au contrat. Le détail de chaque scénario apparaît dans la page et son code est dans `tests/browser.html` et `tests/contract-checks.js`.
+
 Résultats historiques : version **0.1.0**, conservée dans le commit local `fe4d7d7`, fichiers locaux testés le 11 novembre 2026. Ils ne sont pas présentés comme des tests rejoués sur 0.2.0. La vérification ultérieure du site publié figure dans la section Publication.
 
 | Vérification et action | Attendu | Obtenu |
