@@ -1,7 +1,7 @@
 <!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vérifications du navigateur — Code secret</title>
 <style>body{font:16px system-ui;color:#183c35;background:#f6f5ee;max-width:1100px;margin:30px auto;padding:0 18px}li{margin:12px 0}iframe{width:100%;height:900px;border:1px solid #ccd4c8;border-radius:12px}a{color:inherit}.fail{color:#a12d2f}</style>
-<h1>Vérifications du navigateur</h1><p>Version 0.2.1 · API commune 0.2. Ces essais automatisés complètent la vérification manuelle de l’interface.</p>
+<h1>Vérifications du navigateur</h1><p>Version 0.3.0 · API commune 0.2. Ces essais automatisés complètent la vérification manuelle de l’interface.</p>
 <p id="summary" role="status">Vérifications en cours…</p><ol id="results"></ol><a href="../index.html">Retour au jeu</a><div id="host"></div>
 <script src="./contract-checks.js"></script>
 <script>
@@ -21,9 +21,14 @@
     // Les objets sont créés dans la fenêtre du jeu, comme lors d'un appel en console.
     const options=new frame.contentWindow.Object();options.secret=['rouge','rouge','bleu','vert'];
     await api.startGame(options);
+    check('Sélection par boutons : quatre emplacements, six couleurs, aucune liste déroulante.',d.querySelectorAll('#slots button').length===4&&d.querySelectorAll('#color-buttons button').length===6&&d.querySelectorAll('select').length===0);
     check('Indicateur au démarrage : 0/4 couleurs choisies.',$('selected-count').textContent==='0/4 couleurs choisies');
-    const choose=(position,color)=>{const select=$('position-'+position);select.value=color;select.dispatchEvent(new frame.contentWindow.Event('change',{bubbles:true}));};
+    const choose=(position,color)=>{$('position-'+position).click();if(color)d.querySelector('[data-color-choice="'+color+'"]').click();else $('clear-position').click();};
     choose(1,'rouge');choose(2,'bleu');choose(3,'rouge');
+    check('L’emplacement cliqué est actif et la composition ne consomme pas d’essai.',$('position-3').getAttribute('aria-pressed')==='true'&&api.getState().attempts===0);
+    choose(2,'violet');
+    check('Changer une couleur modifie uniquement l’emplacement sélectionné.',$('position-1').dataset.color==='rouge'&&$('position-2').dataset.color==='violet'&&$('position-3').dataset.color==='rouge'&&$('position-4').dataset.color===''&&api.getState().attempts===0);
+    choose(2,'bleu');
     check('Indicateur après trois choix : 3/4.',$('selected-count').textContent==='3/4 couleurs choisies');
     $('submit').click();await Promise.resolve();
     check('Trois choix dans l’interface : refus visible, zéro essai, historique vide.',api.getState().lastError.code==='invalid-color'&&api.getState().attempts===0&&$('history').children.length===0&&$('error').textContent.length>0&&$('selected-count').textContent==='3/4 couleurs choisies');
@@ -33,7 +38,7 @@
     choose(2,'');check('Effacer un choix ramène l’indicateur à 3/4.',$('selected-count').textContent==='3/4 couleurs choisies');choose(2,'bleu');
     let state=await api.submitGuess(['rouge','bleu','rouge','vert']);
     check('API vers écran : 2 bien placées, 2 mal placées, 1 essai.',state.lastResult.wellPlaced===2&&state.lastResult.misplaced===2&&$('history').children.length===1&&$('history').textContent.includes('2 bien placée(s)')&&$('history').textContent.includes('2 mal placée(s)')&&$('counter').textContent==='1 / 10 essais');
-    const choices=['rouge','rouge','bleu','vert'];choices.forEach((color,i)=>{$('position-'+(i+1)).value=color;});
+    const choices=['rouge','rouge','bleu','vert'];choices.forEach((color,i)=>choose(i+1,color));
     $('submit').click();await Promise.resolve();state=api.getState();
     check('Écran vers API : victoire, 2 essais, commandes désactivées.',state.status==='won'&&state.attempts===2&&$('history').children.length===2&&$('submit').disabled&&$('choices').disabled&&$('status').textContent.includes('Code trouvé'));
     const before=JSON.stringify(api.getState());
@@ -42,7 +47,7 @@
     check('Démarrage invalide : erreur normalisée, écran et état conservés.',startError?.code==='invalid-type'&&JSON.stringify(api.getState())===before&&$('counter').textContent==='2 / 10 essais');
     await api.submitGuess(null);check('Après la fin, game-finished sans nouvel essai.',api.getState().lastError.code==='game-finished'&&api.getState().attempts===2&&$('history').children.length===2);
     $('new-game').click();await Promise.resolve();
-    check('Nouvelle partie à l’écran : API et historique remis à zéro.',api.getState().status==='playing'&&api.getState().attempts===0&&$('history').children.length===0&&$('position-1').value===''&&!$('submit').disabled);
+    check('Nouvelle partie à l’écran : API et historique remis à zéro.',api.getState().status==='playing'&&api.getState().attempts===0&&$('history').children.length===0&&$('position-1').dataset.color===''&&!$('submit').disabled);
     check('Nouvelle partie remet aussi l’indicateur à 0/4.',$('selected-count').textContent==='0/4 couleurs choisies');
     $('submit').click();await Promise.resolve();check('Saisie incomplète : message visible, aucun essai consommé.',api.getState().lastError.code==='invalid-color'&&api.getState().attempts===0&&$('error').textContent.length>0);
     const red=new frame.contentWindow.Object();red.secret=Array(4).fill('rouge');await api.startGame(red);

@@ -1,12 +1,14 @@
 # Code secret en couleurs
 
-Version **0.2.1**, adaptée avec Codex à l’atelier du 11 novembre 2026. Jeu solo inspiré du Mastermind, sans compte ni serveur applicatif. Dépôt : https://github.com/NatlaPathai/code_secret. Cette version du jeu conserve le contrat API **0.2**, dont le numéro est indépendant.
+Version **0.3.0**, adaptée avec Codex à l’atelier du 11 novembre 2026. Jeu solo inspiré du Mastermind, sans compte ni serveur applicatif. Dépôt : https://github.com/NatlaPathai/code_secret. Cette version du jeu conserve le contrat API **0.2**, dont le numéro est indépendant.
 
 ## Jouer
 
+**Évolution 0.3.0, attendus avant modification.** Cliquer sur un emplacement doit le mettre en évidence sans consommer d’essai. Cliquer ensuite sur l’un des six boutons de couleur doit remplir uniquement cet emplacement. Le joueur doit pouvoir changer d’emplacement, modifier sa couleur, l’effacer et composer des répétitions, au clic ou au clavier. Une proposition incomplète doit rester refusée sans essai ; « Nouvelle partie » doit effacer les quatre choix. L’API commune conserve le même moteur et le contrat 0.2. Résultats locaux du 11 novembre 2026, navigateur intégré de Codex : **76 contrôles automatisés réussis, 0 échec**, dont les 73 précédents adaptés aux boutons et 3 contrôles spécifiques (quatre emplacements/six couleurs sans liste, emplacement actif sans essai consommé, changement limité à la position sélectionnée). Essai manuel assisté : quatre couleurs composées par clic ; flèche droite puis Espace pour remplacer la couleur de la position 2 par violet ; effacement avec Entrée donnant 3/4 ; bouton rouge puis validation avec Entrée donnant une seule entrée rouge–rouge–vert–jaune et 1/10 essai. Aucun changement du moteur. Version publiée à vérifier ; téléphone réel toujours à essayer.
+
 Amélioration visuelle **0.2.1** : les fines barres sont remplacées par de grandes pastilles rondes, avec une abréviation et le nom dans la liste. Attendu avant modification : une position vide affiche « ? » ; choisir ou modifier une couleur actualise immédiatement sa pastille ; « Nouvelle partie » remet les quatre pastilles à « ? ». Observé le 11 novembre 2026, navigateur intégré de Codex, version locale 0.2.1 : pastilles rouge, bleue, jaune et violette visibles ; remplacer violet par orange affiche O ; redémarrer affiche quatre « ? ». Vérification manuelle assistée réussie. Les 17 contrôles automatisés de `tests/browser.html` ont également réussi sur cette version locale. Smartphone réel à vérifier.
 
-Ouvrir `index.html` dans un navigateur récent, puis choisir « Commencer une partie ». Composer quatre couleurs à l’aide des listes et valider. Les commandes sont utilisables au clavier ; les couleurs portent aussi un nom ou une abréviation.
+Ouvrir `index.html` dans un navigateur récent, puis choisir « Commencer une partie ». Cliquer sur un des quatre emplacements, puis sur un bouton de couleur. Recommencer pour les quatre positions, puis valider. L’emplacement actif est entouré. Pour changer une couleur, sélectionner à nouveau son emplacement ; pour le vider, utiliser « Effacer cet emplacement ». Au clavier : Tab pour parcourir les boutons, Entrée ou Espace pour les activer ; les flèches gauche/droite, Début et Fin permettent aussi de changer d’emplacement. Les commandes sont utilisables au clavier ; les couleurs portent aussi un nom ou une abréviation.
 
 Jeu publié : https://natlapathai.github.io/code_secret/ · Mode API : https://natlapathai.github.io/code_secret/?test=1.
 
@@ -42,7 +44,7 @@ Limite à cette étape : essais locaux sur ordinateur. Le téléphone réel rest
 
 - HTML, CSS et JavaScript sans bibliothèque : pas d’installation pour jouer, chemins relatifs compatibles avec GitHub Pages.
 - `engine.js` gère les règles et garde le secret dans une fermeture ; `app.js` relie ce même moteur aux commandes de l’écran et à l’API. Aucun second jeu pour les tests.
-- Listes de couleurs natives, noms et abréviations pour rendre le jeu utilisable au clavier et ne pas dépendre uniquement des couleurs.
+- Depuis 0.3.0, boutons d’emplacement et palette de six boutons, avec noms et abréviations. Ils remplacent les listes déroulantes initiales à la demande de l’utilisateur. L’emplacement reste actif après le choix d’une couleur, pour éviter de déplacer automatiquement la sélection.
 
 Ces choix et l’apparence sont des propositions de Codex à examiner par l’étudiant. Ils ne constituent pas une décision personnelle déjà justifiée par celui-ci. Codex a préparé l’implémentation et les vérifications ci-dessous ; l’étudiant doit essayer le jeu, comprendre les règles et expliquer ses propres décisions.
 

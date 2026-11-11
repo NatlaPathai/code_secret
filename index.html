@@ -32,6 +32,9 @@
             <fieldset id="choices" disabled><legend>Composez votre proposition</legend>
               <p id="selected-count" class="selected-count" role="status" aria-live="polite" aria-atomic="true">0/4 couleurs choisies</p>
               <div class="slots" id="slots"></div>
+              <p id="color-instruction" class="color-instruction" aria-live="polite">Sélectionnez un emplacement, puis sa couleur.</p>
+              <div id="color-buttons" class="color-buttons" role="group" aria-label="Choisir une couleur"></div>
+              <button id="clear-position" class="clear-position" type="button">Effacer cet emplacement</button>
             </fieldset>
             <p id="error" class="error" role="alert"></p>
             <button id="submit" class="button primary" type="submit" disabled>Valider la proposition <span aria-hidden="true">→</span></button>
@@ -49,7 +52,7 @@
         </aside>
       </div>
     </main>
-    <footer>Inspiré du Mastermind · Règles code-couleurs-1.0 <span>Version 0.2.1</span></footer>
+    <footer>Inspiré du Mastermind · Règles code-couleurs-1.0 <span>Version 0.3.0</span></footer>
   </div>
   <noscript>Ce jeu nécessite JavaScript. Activez-le dans votre navigateur pour jouer.</noscript>
 </body>

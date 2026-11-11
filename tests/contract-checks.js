@@ -12,7 +12,7 @@ window.runContractChecks = async function ({ frame, open, check }) {
   const win=frame.contentWindow, d=frame.contentDocument, $=id=>d.getElementById(id), api=win.codeSecretTest;
   const options = properties => Object.assign(new win.Object(),properties);
   const start = secret => api.startGame(options({secret}));
-  const snapshotUI = () => JSON.stringify({text:d.body.innerText,values:[...d.querySelectorAll('select')].map(s=>s.value),disabled:$('submit').disabled});
+  const snapshotUI = () => JSON.stringify({text:d.body.innerText,values:[...d.querySelectorAll('#slots button')].map(b=>[b.dataset.color,b.getAttribute('aria-pressed')]),disabled:$('submit').disabled});
   function matchesUI(s) {
     const rows=[...$('history').children];
     return $('counter').textContent===`${s.attempts} / 10 essais`
@@ -97,7 +97,7 @@ window.runContractChecks = async function ({ frame, open, check }) {
   check('Contrat : après défaite, aucun onzième essai.',s.lastError.code==='game-finished'&&same(core(s),core(lost))&&matchesUI(s));
   s=await api.startGame();check('Contrat : redémarrage depuis lost efface aussi lastError.',same(s,{...initial,status:'playing'})&&matchesUI(s));
   await start([R,R,B,V]);await api.submitGuess([R,B,R,V]);
-  [R,R,B,V].forEach((color,i)=>{const el=$('position-'+(i+1));el.value=color;el.dispatchEvent(new win.Event('change',{bubbles:true}));});
+  [R,R,B,V].forEach((color,i)=>{$('position-'+(i+1)).click();d.querySelector('[data-color-choice="'+color+'"]').click();});
   $('submit').click();await Promise.resolve();s=api.getState();
   check('Contrat : action utilisateur après appel API, même historique et victoire.',s.status==='won'&&s.attempts===2&&matchesUI(s));
   check('Contrat : aucune révélation du secret, même après victoire.',$('secret')===null&&d.querySelector('.secret').textContent==='????'&&!('secret' in s)&&!('solution' in s));
