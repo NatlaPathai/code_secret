@@ -3,6 +3,7 @@
 <style>body{font:16px system-ui;color:#183c35;background:#f6f5ee;max-width:1100px;margin:30px auto;padding:0 18px}li{margin:12px 0}iframe{width:100%;height:900px;border:1px solid #ccd4c8;border-radius:12px}a{color:inherit}.fail{color:#a12d2f}</style>
 <h1>Vérifications du navigateur</h1><p>Version 0.2.1 · API commune 0.2. Ces essais automatisés complètent la vérification manuelle de l’interface.</p>
 <p id="summary" role="status">Vérifications en cours…</p><ol id="results"></ol><a href="../index.html">Retour au jeu</a><div id="host"></div>
+<script src="./contract-checks.js"></script>
 <script>
 (async()=>{
   const frame=document.createElement('iframe');frame.title='Le jeu testé';
@@ -36,7 +37,9 @@
     $('submit').click();await Promise.resolve();state=api.getState();
     check('Écran vers API : victoire, 2 essais, commandes désactivées.',state.status==='won'&&state.attempts===2&&$('history').children.length===2&&$('submit').disabled&&$('choices').disabled&&$('status').textContent.includes('Code trouvé'));
     const before=JSON.stringify(api.getState());
-    try{const invalid=new frame.contentWindow.Object();invalid.secret=null;await api.startGame(invalid);}catch(error){check('Démarrage invalide : erreur normalisée, écran et état conservés.',error.code==='invalid-type'&&JSON.stringify(api.getState())===before&&$('counter').textContent==='2 / 10 essais');}
+    let startError=null;
+    try{const invalid=new frame.contentWindow.Object();invalid.secret=null;await api.startGame(invalid);}catch(error){startError=error;}
+    check('Démarrage invalide : erreur normalisée, écran et état conservés.',startError?.code==='invalid-type'&&JSON.stringify(api.getState())===before&&$('counter').textContent==='2 / 10 essais');
     await api.submitGuess(null);check('Après la fin, game-finished sans nouvel essai.',api.getState().lastError.code==='game-finished'&&api.getState().attempts===2&&$('history').children.length===2);
     $('new-game').click();await Promise.resolve();
     check('Nouvelle partie à l’écran : API et historique remis à zéro.',api.getState().status==='playing'&&api.getState().attempts===0&&$('history').children.length===0&&$('position-1').value===''&&!$('submit').disabled);
@@ -48,6 +51,7 @@
     await api.startGame(red);for(let i=0;i<9;i++)await api.submitGuess(Array(4).fill('bleu'));await api.submitGuess(Array(4).fill('rouge'));
     check('Victoire au dixième : état won et message de victoire.',api.getState().status==='won'&&$('status').textContent.includes('Code trouvé en 10 essais')&&$('history').children.length===10);
     await api.startGame(options);await api.submitGuess(['rouge','bleu','rouge','vert']);
+    await window.runContractChecks({frame,open,check});
     summary.textContent=`${passed} vérifications réussies ; ${failed} échec(s).`;
     summary.dataset.complete='true';
   }catch(error){summary.textContent='Erreur de vérification : '+error.message;summary.className='fail';summary.dataset.complete='true';}
