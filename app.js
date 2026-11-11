@@ -6,6 +6,11 @@
   const selects = [];
   const testMode = new URLSearchParams(window.location.search).getAll('test').includes('1');
   function updateSelectedCount() {
+    selects.forEach(select => {
+      const preview = select.closest('label').querySelector('.selection-preview');
+      preview.className = `selection-preview token ${select.value || 'unselected'}`;
+      preview.textContent = symbols[select.value] || '?';
+    });
     const count = selects.filter(select => select.value !== '').length;
     $('selected-count').textContent = `${count}/4 couleurs choisies`;
   }
@@ -54,12 +59,16 @@
   for (let i = 0; i < 4; i++) {
     const label = document.createElement('label'); label.className = 'slot';
     const title = document.createElement('span'); title.textContent = `Position ${i + 1}`;
+    const preview = document.createElement('span');
+    preview.className = 'selection-preview token unselected';
+    preview.textContent = '?';
+    preview.setAttribute('aria-hidden', 'true');
     const select = document.createElement('select'); select.id = `position-${i + 1}`;
     const placeholder = document.createElement('option'); placeholder.value = ''; placeholder.textContent = 'Choisir…';
     select.append(placeholder);
     colors.forEach(color => { const opt = document.createElement('option'); opt.value = color; opt.textContent = labels[color]; select.append(opt); });
     select.addEventListener('change', () => { label.dataset.color = select.value; updateSelectedCount(); });
-    label.append(title, select); $('slots').append(label); selects.push(select);
+    label.append(title, preview, select); $('slots').append(label); selects.push(select);
   }
   colors.forEach(color => {
     const li = document.createElement('li'); const name = document.createElement('span'); name.textContent = labels[color];

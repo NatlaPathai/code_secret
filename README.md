@@ -1,8 +1,10 @@
 # Code secret en couleurs
 
-Version **0.2.0**, adaptée avec Codex à l’atelier du 11 novembre 2026. Jeu solo inspiré du Mastermind, sans compte ni serveur applicatif. Dépôt : https://github.com/NatlaPathai/code_secret. Cette version du jeu conserve le contrat API **0.2**, dont le numéro est indépendant.
+Version **0.2.1**, adaptée avec Codex à l’atelier du 11 novembre 2026. Jeu solo inspiré du Mastermind, sans compte ni serveur applicatif. Dépôt : https://github.com/NatlaPathai/code_secret. Cette version du jeu conserve le contrat API **0.2**, dont le numéro est indépendant.
 
 ## Jouer
+
+Amélioration visuelle **0.2.1** : les fines barres sont remplacées par de grandes pastilles rondes, avec une abréviation et le nom dans la liste. Attendu avant modification : une position vide affiche « ? » ; choisir ou modifier une couleur actualise immédiatement sa pastille ; « Nouvelle partie » remet les quatre pastilles à « ? ». Observé le 11 novembre 2026, navigateur intégré de Codex, version locale 0.2.1 : pastilles rouge, bleue, jaune et violette visibles ; remplacer violet par orange affiche O ; redémarrer affiche quatre « ? ». Vérification manuelle assistée réussie. Les 17 contrôles automatisés de `tests/browser.html` ont également réussi sur cette version locale. Smartphone réel à vérifier.
 
 Ouvrir `index.html` dans un navigateur récent, puis choisir « Commencer une partie ». Composer quatre couleurs à l’aide des listes et valider. Les commandes sont utilisables au clavier ; les couleurs portent aussi un nom ou une abréviation.
 

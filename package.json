@@ -1,6 +1,6 @@
 {
   "name": "code-secret",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Jeu de couleurs inspiré du Mastermind — API commune 0.2",
   "scripts": { "test": "node --test tests/engine.test.js" }
