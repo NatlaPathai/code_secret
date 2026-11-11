@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183c35">
+  <meta name="description" content="Un code de quatre couleurs, dix essais pour le découvrir. Un jeu de logique gratuit inspiré du Mastermind.">
+  <title>Code secret — Le jeu des couleurs</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./engine.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead"><a class="brand" href="./index.html">● ● ● ● <span>Code secret</span></a><span class="edition">Un jeu de logique</span></header>
+    <main>
+      <section class="intro" aria-labelledby="title">
+        <p class="eyebrow">À vous de trouver la combinaison</p>
+        <h1 id="title">Quatre couleurs.<br>Dix chances de percer le secret.</h1>
+        <p class="lead">Observez les indices, ajustez vos choix et retrouvez le code caché. Une même couleur peut apparaître plusieurs fois.</p>
+      </section>
+      <div class="layout">
+        <section class="board" aria-labelledby="board-title">
+          <div class="board-heading"><h2 id="board-title">Votre partie</h2><span id="counter">0 / 10 essais</span></div>
+          <div class="secret" aria-label="Le code de quatre couleurs reste caché"><span>?</span><span>?</span><span>?</span><span>?</span></div>
+          <p id="status" class="status" role="status" aria-live="polite">Prêt à relever le défi ? Commencez une partie.</p>
+          <button id="new-game" class="button secondary" type="button">Commencer une partie</button>
+          <div class="history-heading"><h3>Vos essais</h3><span>Du premier au dernier</span></div>
+          <p id="empty" class="empty">Vos combinaisons et leurs indices apparaîtront ici.</p>
+          <ol id="history" aria-label="Historique des propositions"></ol>
+          <form id="guess-form" novalidate>
+            <fieldset id="choices" disabled><legend>Composez votre proposition</legend>
+              <p id="selected-count" class="selected-count" role="status" aria-live="polite" aria-atomic="true">0/4 couleurs choisies</p>
+              <div class="slots" id="slots"></div>
+            </fieldset>
+            <p id="error" class="error" role="alert"></p>
+            <button id="submit" class="button primary" type="submit" disabled>Valider la proposition <span aria-hidden="true">→</span></button>
+          </form>
+        </section>
+        <aside class="guide" aria-labelledby="guide-title">
+          <p class="eyebrow">Les règles du jeu</p><h2 id="guide-title">Chaque indice compte.</h2>
+          <p>Le programme choisit un code fixe de <strong>4 couleurs parmi 6</strong>. Vous avez <strong>10 essais</strong> pour retrouver les couleurs et leur ordre.</p>
+          <div class="hint"><span class="marker exact" aria-hidden="true"></span><div><h3>Bien placée</h3><p>La bonne couleur à la bonne position.</p></div></div>
+          <div class="hint"><span class="marker elsewhere" aria-hidden="true"></span><div><h3>Mal placée</h3><p>Une couleur du code, à une autre position.</p></div></div>
+          <p class="note">Les indices donnent des nombres, pas les positions. Chaque pion compte une seule fois : les bien placés d’abord, puis les mal placés.</p>
+          <h3>Les six couleurs</h3><ul id="palette" class="palette" aria-label="Couleurs autorisées"></ul>
+          <details><summary>Un exemple avec des répétitions</summary><p>Pour un code rouge, rouge, bleu, vert, une proposition de quatre rouges donne <strong>2 bien placées et 0 mal placée</strong>. Les rouges supplémentaires ne comptent pas.</p></details>
+          <p class="note">Modifiez librement vos quatre choix avant de valider. Une proposition refusée ne consomme aucun essai. Après la fin, lancez une nouvelle partie.</p>
+        </aside>
+      </div>
+    </main>
+    <footer>Inspiré du Mastermind · Règles code-couleurs-1.0 <span>Version 0.2.0</span></footer>
+  </div>
+  <noscript>Ce jeu nécessite JavaScript. Activez-le dans votre navigateur pour jouer.</noscript>
+</body>
+</html>
