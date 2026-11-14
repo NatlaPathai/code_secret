@@ -89,7 +89,7 @@ J’ai essayé le jeu sur un **Fairphone 6 sous Android**, avec **Firefox pour A
 | Soumettre une proposition d’une seule couleur | Refus sans essai consommé | Aucune anomalie signalée ; le message et le compteur ne sont pas précisés séparément dans mon retour |
 | Gagner, perdre et relancer le jeu | Reconnaître la fin de partie et pouvoir recommencer | Victoire, défaite et relance essayées sans problème |
 
-Ce retour personnel a été communiqué le **14 novembre 2026**. La date exacte de l’essai, le numéro de version affiché et les versions d’Android et de Firefox ne sont pas précisés dans ce retour. Il s’agit de mon observation sur téléphone, distincte des tests automatisés exécutés par Codex ; elle ne prouve pas que toutes les situations possibles ont été couvertes.
+Cet essai a été réalisé le **11 novembre 2026**, le même jour et après le réagencement des règles, des essais et de la proposition. Il porte donc sur le jeu **0.4.0**, correspondant à cette nouvelle disposition ([version publiée après réagencement](https://github.com/NatlaPathai/code_secret/commit/e03edbb4380132a629847e9503bbfa5e9c378b89)). Ce retour personnel a été communiqué et précisé le **14 novembre 2026**. Les versions exactes d’Android et de Firefox ne sont pas précisées. Il s’agit de mon observation sur téléphone, distincte des tests automatisés exécutés par Codex ; elle ne prouve pas que toutes les situations possibles ont été couvertes.
 
 ## Ma démarche avec Codex
 
@@ -107,7 +107,7 @@ J’ai essayé le jeu d’un camarade et je n’ai pas rencontré de problème d
 
 ## Limites et activités à compléter
 
-Les vérifications réalisées ne prouvent pas l’absence de tout défaut. Mon essai sur smartphone, mes choix d’ergonomie et mon retour sur le jeu d’un camarade sont décrits ci-dessus. La date exacte et le numéro de la version essayée sur téléphone restent à préciser pour rattacher ce retour à une version identifiée.
+Les vérifications réalisées ne prouvent pas l’absence de tout défaut. Mon essai sur smartphone est rattaché à la version **0.4.0**, après le réagencement du **11 novembre 2026**. Mes choix d’ergonomie et mon retour sur le jeu d’un camarade sont également décrits ci-dessus.
 
 Un essai avec lecteur d’écran et une vérification dans un second navigateur sur ordinateur restent non réalisés. Firefox sur téléphone a bien été essayé, comme indiqué ci-dessus. Les contrôles complémentaires ne constituent pas des exigences supplémentaires ajoutées aux critères d’évaluation.
 
